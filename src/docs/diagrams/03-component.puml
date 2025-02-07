@@ -1,0 +1,13 @@
+@startuml AppVendasComponent
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Container(api, "API Backend", "Spring Boot", "API REST para funcionalidades de backend") {
+    Component(controller, "Controller REST", "Controlador Spring MVC", "Recebe requisições HTTP")
+    Component(service, "Service", "Classe de Serviço", "Contém lógica de negócio")
+    Component(repository, "Repository", "Interface JPA", "Gerencia operações de banco de dados")
+}
+
+controller --> service : "Chamada de Métodos"
+service --> repository : "Consulta ao BD"
+
+@enduml

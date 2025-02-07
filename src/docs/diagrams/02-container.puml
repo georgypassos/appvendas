@@ -1,0 +1,16 @@
+@startuml AppVendasContainer
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person_Ext(usuario, "Funcionário", "Funcionário que interage com o sistema de cadastros")
+Container(webapp, "Aplicação Web", "Angular", "Frontend da aplicação Web")
+Container(mobileapp, "Aplicação Mobile", "Flutter", "Frontend da aplicação Mobile")
+Container(api, "API Backend", "Spring Boot", "API REST para funcionalidades de backend")
+ContainerDb(database, "Banco de Dados", "H2", "Armazena informações do sistema")
+
+usuario --> webapp : "Usa"
+usuario --> mobileapp : "Usa"
+webapp --> api : "Requisições HTTP(S)"
+mobileapp --> api : "Requisições HTTP(S)"
+Rel(api, database, "SQL", "Usa")
+
+@enduml

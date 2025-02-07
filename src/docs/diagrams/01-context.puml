@@ -1,0 +1,13 @@
+@startuml AppVendasContext
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+Person(usuario, "Funcionário", "Funcionário que interage com o sistema")
+System(sistemaGestao, "Sistema de Gestão de Vendas On-line", "Sistema que gerencia as vendas de um mercado")
+System_Ext(servicoCadastro, "Sistema de Cadastro", "Sistema externo para processamento de cadastro")
+System_Ext(servicoNotificacao, "Serviço de Notificações", "Serviço externo para enviar notificações")
+
+usuario --> sistemaGestao : "Usa"
+sistemaGestao --> servicoCadastro : "Gerencia cadastros"
+sistemaGestao --> servicoNotificacao : "Envia notificações"
+
+@enduml

@@ -1,0 +1,48 @@
+@startuml AppVendasCode
+scale 1.5
+
+package "AppvendasApplication" {
+    class Product {
+        - Long id
+        - String name
+        - String description
+        - Integer quantity
+        - Double price
+
+        + getId() : Long
+        + getName() : String
+        + getDescription() : String
+        + getQuantity() : Integer
+        + getPrice() : Double
+    }
+
+    class ProductController {
+        + findAll() : List<Product> 
+        + findById(Long id) : Product 
+        + create(Product product) : Product 
+        + update(Long id, Product updatedProduct) : Product 
+        + delete(Long id) : void 
+    }
+
+    class ProductService {
+        + findAll() : List<Product> 
+        + findById(Long id) : Product 
+        + create(Product product) : Product 
+        + update(Long id, Product updatedProduct) : Product 
+        + deleteById(Long id) : void 
+    }
+
+    class ProductRepository {
+        + findAll() : List<Product> 
+        + findById(Long id) : Optional<Product> 
+        + save(Product product) : Product 
+        + deleteById(Long id) : void 
+        + count() : long
+    }
+}
+
+ProductController --> ProductService : "Chama"
+ProductService --> ProductRepository : "Usa"
+ProductRepository --> Product : "Gerencia"
+
+@enduml
