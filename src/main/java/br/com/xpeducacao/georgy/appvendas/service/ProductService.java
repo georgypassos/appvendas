@@ -29,23 +29,21 @@ public class ProductService {
         return this.productRepository.save(product);
     }
 
-    public Product update(Long id, Product updatedProduct) {
+    public Optional<Product> update(Long id, Product updatedProduct) {
         return productRepository.findById(id)
                 .map(product -> {
                     product.setName(updatedProduct.getName());
                     product.setPrice(updatedProduct.getPrice());
                     return productRepository.save(product);
-                })
-                .orElseThrow(() -> new RuntimeException("Product not found with ID: " + id));
+                });
     }
 
-    public boolean deleteById(Long id) {
-        try {
-            this.productRepository.deleteById(id);
-            return true;
-        } catch (Exception exception) {
-            return false;
-        }
+    public Optional<Void> deleteById(Long id) {
+        return productRepository.findById(id)
+                .map(product -> {
+                    productRepository.deleteById(id);
+                    return null; // Retorna void
+                });
     }
 
     public Integer count() {
