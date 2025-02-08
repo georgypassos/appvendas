@@ -1,6 +1,8 @@
 package br.com.xpeducacao.georgy.appvendas.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -59,14 +61,18 @@ public class ProductController {
     }
 
     @PostMapping
-    public EntityModel<Product> create(@RequestBody Product product) {
+    public ResponseEntity<EntityModel<Product>> create(@RequestBody Product product) {
         Product createdProduct = productService.create(product);
-        return EntityModel.of(createdProduct,
+        EntityModel<Product> productModel = EntityModel.of(createdProduct,
                 WebMvcLinkBuilder
                         .linkTo(WebMvcLinkBuilder.methodOn(ProductController.class).findById(createdProduct.getId()))
                         .withSelfRel(),
                 WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ProductController.class).findAll())
                         .withRel("products"));
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(productModel);
     }
 
     @PutMapping("/{id}")
@@ -88,5 +94,13 @@ public class ProductController {
         return productService.deleteById(id)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Map<String, Integer>> count() {
+        int totalProducts = productService.count();
+        Map<String, Integer> response = new HashMap<>();
+        response.put("count", totalProducts);
+        return ResponseEntity.ok(response);
     }
 }
